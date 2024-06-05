@@ -3,4 +3,5 @@
 
 This project focuses on vegetataion health classification using RGB images. Satellite data vegetation quality can be scored using NDVI formula. However, this requires the image to have the near infrared(NIR) band. Not all satellites have this band, so we are using machine learning to predict vegetation quality using the RGB bands of the images. The ground truths are still generated using the NDVI formula. However, the model only makes predictions using the RGB bands. This can help expand vegetation classification abilities to satelites that do not capture the NIR band.
 
+Place Train data folder in data/raw/
 Run prepare_data.py to process data for our vegetation prediction task.
