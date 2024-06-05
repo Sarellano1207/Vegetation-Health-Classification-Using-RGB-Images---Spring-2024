@@ -1,0 +1,8 @@
+data/
+models/
+.venv/
+venv/
+landsat_ndvi.png
+landsat_rgb.png
+src/__pycache__/
+preprocessing/__pycache__
