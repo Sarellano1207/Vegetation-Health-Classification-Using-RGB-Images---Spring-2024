@@ -1,0 +1,6 @@
+data/
+models/
+.venv/
+venv/
+src/__pycache__/
+preprocessing/__pycache__
