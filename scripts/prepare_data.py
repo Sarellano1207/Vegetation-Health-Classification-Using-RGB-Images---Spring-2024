@@ -5,7 +5,7 @@ import xarray as xr
 sys.path.append(".")
 from src.esd_data.datamodule import ESDDataModule
 from src.utilities import SatelliteType
-
+import numpy as np
 from src.utilities import ESDConfig, PROJ_NAME
 
 
@@ -22,7 +22,8 @@ def prepare_data(config: ESDConfig):
     datamodule.prepare_data()
     subtiles = list((config.processed_dir / "Train" / "subtiles").glob("Tile*")) + list((config.processed_dir / "Val" / "subtiles").glob("Tile*"))
     print("Last Processing part (no timer)")
-
+    #Thresholds
+    map = np.vectorize(lambda val: 0 if val < 0.2 else (1 if val < 0.4 else (2 if val < 0.6 else 3)))
     #Makes the landsat_rgb and landsat_ndvi files. Gets the mean image across the dates  
     for subtile in subtiles:
         for part in subtile.glob("*"):
@@ -31,7 +32,24 @@ def prepare_data(config: ESDConfig):
             landsat = part / "landsat.nc"
             landsat = xr.open_dataarray(landsat).mean(dim="date")
             landsat_rgb = landsat.sel(band=["4", "3", "2"])
-            landsat_ndvi= (landsat.sel(band="5") - landsat.sel(band="4")) / (landsat.sel(band="5") + landsat.sel(band="4"))
+            landsat_ndvi= (landsat.sel(band="5") - landsat.sel(band="4")) / (landsat.sel(band="5") + landsat.sel(band="4")).squeeze()
+            
+            # for i in range(landsat_ndvi.shape[0]):
+            #     for j in range(landsat_ndvi.shape[1]):
+            #         val = landsat_ndvi[i][j]
+            #         #Bad Vegetation
+            #         if(val < 0.2):
+            #             landsat_ndvi[i][j] = 0
+            #         #Less bad Vegetation:
+            #         elif(val < 0.4):
+            #             landsat_ndvi[i][j] = 1
+            #         #Ok Vegetation
+            #         elif(val < 0.6):
+            #             landsat_ndvi[i][j] = 2
+            #         #Good Vegetation
+            #         else:
+            #             landsat_ndvi[i][j] = 3
+            landsat_ndvi = xr.apply_ufunc(map, landsat_ndvi)
             landsat_rgb.to_netcdf(part / "landsat_rgb.nc")
             landsat_ndvi.to_netcdf(part / "landsat_ndvi.nc")
             landsat.close()

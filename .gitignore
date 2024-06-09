@@ -4,3 +4,5 @@ models/
 venv/
 src/__pycache__/
 preprocessing/__pycache__
+wandb/
+models/
