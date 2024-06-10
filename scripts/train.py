@@ -91,6 +91,10 @@ def train(options: ESDConfig):
             "pool_size": options.pool_sizes,
             "model_type": "SegmentationCNN"
         }
+    elif options.model_type == "DeepLab":
+        model_params = {
+            "model_type": "DeepLab"
+        }
 
     # note: different models have different parameters
 
