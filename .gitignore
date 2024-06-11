@@ -7,4 +7,3 @@ scripts/__pycache__/
 preprocessing/__pycache__
 results/
 wandb/
-src/visualization/visualize_uci.py
