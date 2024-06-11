@@ -1,5 +1,8 @@
 data/
-models/
+models/DeepLab
+models/FCNResnetTransfer
+models/SegmentationCNN
+models/UNet
 .venv/
 venv/
 src/__pycache__/
