@@ -33,22 +33,7 @@ def prepare_data(config: ESDConfig):
             landsat = xr.open_dataarray(landsat).mean(dim="date")
             landsat_rgb = landsat.sel(band=["4", "3", "2"])
             landsat_ndvi= (landsat.sel(band="5") - landsat.sel(band="4")) / (landsat.sel(band="5") + landsat.sel(band="4")).squeeze()
-            
-            # for i in range(landsat_ndvi.shape[0]):
-            #     for j in range(landsat_ndvi.shape[1]):
-            #         val = landsat_ndvi[i][j]
-            #         #Bad Vegetation
-            #         if(val < 0.2):
-            #             landsat_ndvi[i][j] = 0
-            #         #Less bad Vegetation:
-            #         elif(val < 0.4):
-            #             landsat_ndvi[i][j] = 1
-            #         #Ok Vegetation
-            #         elif(val < 0.6):
-            #             landsat_ndvi[i][j] = 2
-            #         #Good Vegetation
-            #         else:
-            #             landsat_ndvi[i][j] = 3
+
             landsat_ndvi = xr.apply_ufunc(map, landsat_ndvi)
             landsat_rgb.to_netcdf(part / "landsat_rgb.nc")
             landsat_ndvi.to_netcdf(part / "landsat_ndvi.nc")
