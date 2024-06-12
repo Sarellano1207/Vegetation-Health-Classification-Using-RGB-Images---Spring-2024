@@ -19,10 +19,10 @@ This project focuses on vegetataion health classification using RGB images. Sate
 
 
 ### Models Tested & Accuracy (15 Epochs):
-DeepLabv3 - 0.7349652960526315\
-UNet - 0.7315738486842104\
-FCNResnet101 - 0.5767738486842104\
-SegmentationCNN -  0.7059647203947367
+DeepLabv3 - 0.7350\
+UNet - 0.7316\
+FCNResnet101 - 0.5768\
+SegmentationCNN -  0.7060
 
 ### Steps to run
 **Setup and Training**
