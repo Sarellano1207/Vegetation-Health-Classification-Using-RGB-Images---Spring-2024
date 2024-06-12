@@ -3,10 +3,15 @@
 This project focuses on vegetataion health classification using RGB images. Satellite data vegetation quality can be scored using NDVI formula. However, this requires the image to have the near infrared(NIR) band. Not all satellites and images have this band, so we are using machine learning to predict vegetation quality using the RGB bands of the images. The ground truths are still generated using the NDVI formula, however, the model only makes predictions using the RGB bands. This can help expand vegetation classification abilities to satelites that do not capture the NIR band.
 
 ### Examples 
+<figure>
+  <img src="assets/Tile15_1_0_output.png" alt="Tile Prediction" title="Example Image 1" width="550"/>
+  <figcaption>Landsat Tile Prediction</figcaption>
+</figure>
 
-Add Example images
-
-
+<figure>
+  <img src="assets/sf_prediction.png" alt="SF Prediction" title="Example Image 2" width="550"/>
+  <figcaption>SF Prediction (Google Maps Screenshot)</figcaption>
+</figure>
 
 ### ML Pipeline
 ![ML Pipeline](assets/MLpipeline.png "Example Image 1")
