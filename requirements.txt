@@ -14,4 +14,3 @@ pyprojroot
 umap-learn
 wandb
 rich
-image

@@ -2,11 +2,10 @@ import sys
 from pathlib import Path
 from typing import List, Tuple
 
-import torch
 import numpy as np
 from torch.utils.data import Dataset
 from torchvision import transforms as torchvision_transforms
-import xarray as xr
+
 sys.path.append(".")
 from src.preprocessing.subtile import Subtile
 from src.utilities import SatelliteType
@@ -105,42 +104,31 @@ class ESDDataset(Dataset):
             y: np.ndarray | torch.Tensor
                 ground truth, of shape (1, width, height)
         """
-        # # create a subtile and load by directory. The directory to load from will be the subtile_dirs at idx.
-        #subtile = Subtile.load_subtile_by_dir(self.subtile_dirs[idx], self.satellite_type_list, self.slice_size)
-        # # get the data_array_list and ground truth from the subtile satellite list and ground truth
-        # data_array_list, ground_truth = subtile.satellite_list, subtile.ground_truth
-        # # convert items to their .values form, we are stripping away the xarray so we can feed the data into the model
-        # data_array_list = [data_array.values for data_array in data_array_list]
-        # # initalize a list to store X
-        # x = []
-        # # iterate over each array in the stripped array from above
-        # for array in data_array_list:
-        #     # aggregate time and append the array to X
-        #     x.append(self.__aggregate_time(array))
+        # create a subtile and load by directory. The directory to load from will be the subtile_dirs at idx.
+        subtile = Subtile.load_subtile_by_dir(self.subtile_dirs[idx], self.satellite_type_list, self.slice_size)
+        # get the data_array_list and ground truth from the subtile satellite list and ground truth
+        data_array_list, ground_truth = subtile.satellite_list, subtile.ground_truth
+        # convert items to their .values form, we are stripping away the xarray so we can feed the data into the model
+        data_array_list = [data_array.values for data_array in data_array_list]
+        # initalize a list to store X
+        x = []
+        # iterate over each array in the stripped array from above
+        for array in data_array_list:
+            # aggregate time and append the array to X
+            x.append(self.__aggregate_time(array))
 
-        # # concatenate X
-        # x = np.concatenate(x)
-        # # set y to be the ground truth data array .values squeezed on the 0 and 1 axis
-        # y = np.squeeze(ground_truth.values, axis=(0, 1))
+        # concatenate X
+        x = np.concatenate(x)
+        # set y to be the ground truth data array .values squeezed on the 0 and 1 axis
+        y = np.squeeze(ground_truth.values, axis=(0, 1))
 
-        # # if the transform is not none
-        # if self.transform is not None:
-        #     # apply the transform to X and y and store the result
-        #     new_dict = self.transform({"X": x, "y": y})
-        #     # set X to be the result for X
-        #     x = new_dict["X"]
-        #     # set y to be the result for y
-        #     y = new_dict["y"]
-        # # return X and y-1, labels go from 1-4, so y-1 makes them zero indexed
-        subtile_path = self.subtile_dirs[idx]
-        x = xr.open_dataarray(subtile_path / "landsat_rgb.nc") #3x400x400 rgb array
-        y = xr.open_dataarray(subtile_path / "landsat_ndvi.nc") #400x400 ndvi array
-        x = x.values
-        y = y.values
-        # if self.transform is not None:
-        #     new_dict = self.transform({"X": x, "y": y})
-        #     x = new_dict["X"]
-        #     y = new_dict["y"]
-        #y = y.reshape(1, y.shape[0], y.shape[1])
-        return torch.tensor(x), torch.tensor(y)
-    
+        # if the transform is not none
+        if self.transform is not None:
+            # apply the transform to X and y and store the result
+            new_dict = self.transform({"X": x, "y": y})
+            # set X to be the result for X
+            x = new_dict["X"]
+            # set y to be the result for y
+            y = new_dict["y"]
+        # return X and y-1, labels go from 1-4, so y-1 makes them zero indexed
+        return x, y-1
