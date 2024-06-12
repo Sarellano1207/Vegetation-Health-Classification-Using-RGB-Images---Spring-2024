@@ -68,7 +68,7 @@ You can now either test the model against landsat data to see how it performs ag
 **Slides:** \
 **Poster:** \
 **Presentation:** \
-**Tech Memo:**
+**Tech Memo: In Progress**
 ### Citing
 If you use this repository, this is the citation: \
 @misc{final-project-idk, \
