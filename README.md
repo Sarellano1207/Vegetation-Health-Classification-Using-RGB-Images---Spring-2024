@@ -64,8 +64,11 @@ You can now either test the model against landsat data to see how it performs ag
 
 
 ### Misc Links
-**Current Best Model:** https://drive.google.com/file/d/14R9OJwlghJTmUqbbsUOP4lBIuaa3Nkg4/view?usp=sharing
-
+**Current Best Model:** https://drive.google.com/file/d/14R9OJwlghJTmUqbbsUOP4lBIuaa3Nkg4/view?usp=sharing \
+**Slides:** \
+**Poster:** \
+**Presentation:** \
+**Tech Memo:**
 ### Citing
 If you use this repository, this is the citation: \
 @misc{final-project-idk, \
