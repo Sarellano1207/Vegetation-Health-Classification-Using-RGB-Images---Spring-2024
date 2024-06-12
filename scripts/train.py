@@ -221,10 +221,12 @@ if __name__ == "__main__":
         "--device",
         type=str,
         help="Device to train on",
-        default=config.device,
+        default=config.devices,
     )
     parse_args = parser.parse_args()
     accelerator = "gpu" if "gpu" in parse_args.device else "cpu"
+    #remove device from parse args
+    parse_args.__dict__.pop("device")
     config = ESDConfig(**parse_args.__dict__)
 
     train(config, accelerator)
