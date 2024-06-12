@@ -16,7 +16,7 @@ sys.path.append(".")
 from src.esd_data.datamodule import ESDDataModule
 from src.models.supervised.satellite_module import ESDSegmentation
 from src.utilities import ESDConfig, PROJ_NAME
-
+import numpy as np
 ROOT = Path.cwd()
 
 
@@ -39,6 +39,9 @@ def train(options: ESDConfig, accelerator: str):
     datamodule.prepare_data()
     subtiles = list((config.processed_dir / "Train" / "subtiles").glob("Tile*")) + list((config.processed_dir / "Val" / "subtiles").glob("Tile*"))
     print("Last Processing part (no timer)")
+    #Processes the data, saving only RGB images and NDVI images
+    map = np.vectorize(lambda val: 0 if val < 0.2 else (1 if val < 0.4 else (2 if val < 0.6 else 3)))
+
     for subtile in subtiles:
         for part in subtile.glob("*"):
             if((part / "landsat.nc").exists() == False):
@@ -47,22 +50,9 @@ def train(options: ESDConfig, accelerator: str):
             landsat = xr.open_dataarray(landsat).mean(dim="date")
             landsat_rgb = landsat.sel(band=["4", "3", "2"])
             landsat_ndvi= (landsat.sel(band="5") - landsat.sel(band="4")) / (landsat.sel(band="5") + landsat.sel(band="4")).squeeze()
-            for i in range(landsat_ndvi.shape[0]):
-                for j in range(landsat_ndvi.shape[1]):
-                    val = landsat_ndvi[i][j]
-                    #Bad Vegetation
-                    if(val < 0.2):
-                        landsat_ndvi[i][j] = 0
-                    #Less bad Vegetation:
-                    elif(val < 0.4):
-                        landsat_ndvi[i][j] = 1
-                    #Ok Vegetation
-                    elif(val < 0.6):
-                        landsat_ndvi[i][j] = 2
-                    #Good Vegetation
-                    else:
-                        landsat_ndvi[i][j] = 3
-            
+            #Thresholding the data
+            landsat_ndvi = xr.apply_ufunc(map, landsat_ndvi)
+            #save new data
             landsat_rgb.to_netcdf(part / "landsat_rgb.nc")
             landsat_ndvi.to_netcdf(part / "landsat_ndvi.nc")
             landsat.close()

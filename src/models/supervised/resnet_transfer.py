@@ -17,9 +17,7 @@ class FCNResnetTransfer(nn.Module):
         The last layer must be changed to be a 512 -> output_channels
         conv2d layer, with (1,1) kernel size and (1,1) stride. 
 
-        A final pooling layer must then be added to pool each 50x50
-        patch down to a 1x1 image, as the original FCN resnet is trained to
-        have the segmentation be the same resolution as the input.
+
         
         Input:
             input_channels: number of input channels of the image
@@ -44,8 +42,6 @@ class FCNResnetTransfer(nn.Module):
         self.model.backbone.conv1 = nn.Conv2d(in_channels=in_channels, out_channels = 64, kernel_size = (7,7), stride = (2,2), padding = (3,3), bias = False)
         # change self.model.classifier[-1] to use out_channels as output
         self.model.classifier[-1] = nn.Conv2d(in_channels = 512, out_channels=out_channels, kernel_size= (1,1), stride = (1, 1))
-        # # create a final pooling layer that's a maxpool2d, of kernel size scale_factor
-        # self.pool = nn.MaxPool2d(kernel_size=scale_factor)
         
     def forward(self, x):
         """
@@ -55,14 +51,12 @@ class FCNResnetTransfer(nn.Module):
         Input:
             x: image to run a prediction of, of shape
             (batch, self.input_channels, width, height)
-            with width and height divisible by
-            self.scale_factor
+
         Output:
             pred_y: predicted labels of size
-            (batch, self.output_channels, width//self.scale_factor, height//self.scale_factor)
+
         """
         # run x through self.model
         x = self.model(x)
-        # pool the model_output's "out" value
         y_pred = x["out"]
         return y_pred

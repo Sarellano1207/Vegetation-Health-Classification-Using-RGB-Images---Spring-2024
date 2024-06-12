@@ -13,16 +13,13 @@ class Encoder(nn.Module):
         the resolution of the image the same, it must be padded
         by with `kernel_size//2' zeroes around the image. 
 
-        The image is then pooled with a MaxPool2d operation of size
-        `pool_size`, the resulting is a model that has input of shape
-        (batch, in_channels, width, height), and outputs an image of
-        shape (batch, out_channels, width//pool_size, height//pool_size) 
+       
         Inputs:
             in_channels: number of input channels
             out_channels: number of output channels
             depth: number of convolutional layers in encoder block
             kernel_size: size of the kernel of the convolutional layers
-            pool_size: size of the kernel of the pooling layer
+
         """
 
         # save in_channels and out_channels

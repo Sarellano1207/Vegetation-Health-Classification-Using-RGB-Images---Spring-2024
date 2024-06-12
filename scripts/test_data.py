@@ -28,6 +28,7 @@ def main(options):
     print("Last Processing part (no timer)")
     #Thresholds
     map = np.vectorize(lambda val: 0 if val < 0.2 else (1 if val < 0.4 else (2 if val < 0.6 else 3)))
+    #Processing Data, saving only data need (RGB Bands and NDVI ground truth)
     for subtile in subtiles:
         for part in subtile.glob("*"):
             if((part / "landsat.nc").exists() == False):
@@ -47,7 +48,7 @@ def main(options):
     count = 0
     accuracy_total = 0
     subtiles = list((options.processed_dir / "Train" / "subtiles").glob("Tile*")) + list((options.processed_dir / "Val" / "subtiles").glob("Tile*"))
-    
+    #Plotting and Predicting
     for file in subtiles:
         for dir in file.glob("*"):
             if (dir / "landsat_rgb.nc").exists():

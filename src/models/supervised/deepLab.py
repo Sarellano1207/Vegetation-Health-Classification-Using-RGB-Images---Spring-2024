@@ -14,21 +14,16 @@ class DeepLab(nn.Module):
         to an input_channels -> 64 Conv2d with (7,7) kernel size,
         (2,2) stride, (3,3) padding and no bias.
 
-        The last layer must be changed to be a 512 -> output_channels
+        The last layer must be changed to be a 256 -> output_channels
         conv2d layer, with (1,1) kernel size and (1,1) stride. 
 
-        A final pooling layer must then be added to pool each 50x50
-        patch down to a 1x1 image, as the original FCN resnet is trained to
-        have the segmentation be the same resolution as the input.
+
         
         Input:
             input_channels: number of input channels of the image
             of shape (batch, input_channels, width, height)
             output_channels: number of output channels of prediction,
-            prediction is shape (batch, output_channels, width//scale_factor, height//scale_factor)
-            scale_factor: number of input pixels that map to 1 output pixel,
-            for example, if the input is 800x800 and the output is 16x6
-            then the scale factor is 800/16 = 50.
+            prediction is shape 4x400x400
         """
         super(DeepLab, self).__init__()
 
@@ -49,20 +44,14 @@ class DeepLab(nn.Module):
         
     def forward(self, x):
         """
-        Runs predictions on the modified FCN resnet
-        followed by pooling
-
+        Runs predictions on the DeepLab model
         Input:
             x: image to run a prediction of, of shape
             (batch, self.input_channels, width, height)
-            with width and height divisible by
-            self.scale_factor
         Output:
             pred_y: predicted labels of size
-            (batch, self.output_channels, width//self.scale_factor, height//self.scale_factor)
         """
         # run x through self.model
         x = self.model(x)
-        # pool the model_output's "out" value
         y_pred = x["out"]
         return y_pred

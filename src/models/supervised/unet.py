@@ -128,9 +128,6 @@ class UNet(nn.Module):
         The decoders then upscale the image and halve the amount of
         embedding layers, i.e., they go from 4*embedding_size->2*embedding_size.
 
-        We then have a maxpool2d that scales down the output to by scale_factor,
-        as the input for this architecture must be the same size as the output,
-        but our input images are 800x800 and our output images are 16x16.
         """
         super(UNet, self).__init__()
 
@@ -170,8 +167,6 @@ class UNet(nn.Module):
         # save the decoder list as an nn.ModuleList to self.decoders
         self.decoders = nn.ModuleList(decoder_list)
         
-        # create a MaxPool2d of kernel size scale_factor as the final pooling layer
-        self.pool = nn.MaxPool2d(kernel_size=scale_factor)
         self.OutConv = OutConv(out_channels, out_channels)
 
     def forward(self, x):
