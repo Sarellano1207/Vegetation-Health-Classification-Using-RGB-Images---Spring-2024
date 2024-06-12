@@ -45,14 +45,17 @@ def main(options):
 
     f1_total = 0
     count = 0
+    accuracy_total = 0
     subtiles = list((options.processed_dir / "Train" / "subtiles").glob("Tile*")) + list((options.processed_dir / "Val" / "subtiles").glob("Tile*"))
+    
     for file in subtiles:
         for dir in file.glob("*"):
             if (dir / "landsat_rgb.nc").exists():
                 landsat = xr.open_dataarray(dir / "landsat_rgb.nc")
                 landsat = torch.tensor(landsat.values)
                 landsat = landsat.unsqueeze(0)
-                landsat = landsat.cuda()
+                device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+                landsat = landsat.to(device)
                 output = model(landsat)
                 output = output.squeeze().cpu().detach().numpy()
                 output = np.argmax(output, axis=0)
@@ -62,16 +65,16 @@ def main(options):
                 axs[0].set_title("RGB Image")
                 ndvi = xr.open_dataarray(dir / "landsat_ndvi.nc").astype(int)
                 ndvi_plot = axs[1].imshow(ndvi, cmap="viridis")
-                axs[1].set_title("Ground Truth NDVI")
-                fig.colorbar(ndvi_plot, ax=axs[1], orientation='vertical', label='Vegetation Quality', fraction=0.046)
+                axs[1].set_title("Ground Truth Vegetation")
                 output_plot = axs[2].imshow(output.astype(int), cmap="viridis")
-                axs[2].set_title("Predicted NDVI")
-                fig.colorbar(output_plot, ax=axs[2], orientation='vertical', label='Vegetation Quality', fraction=0.046)
-                plt.subplots_adjust(wspace=0.5) 
+                axs[2].set_title("Predicted Vegetation") 
+                plt.tight_layout()
                 plt.savefig(options.results_dir / f"{file.name}_{dir.name}_output.png")
                 plt.close()
                 f1_total += f1_score(ndvi.values.flatten(), output.flatten(), average='macro')
                 count += 1
+                accuracy_total += np.mean(ndvi.values == output)
+    print(f"Average Accuracy: {accuracy_total / count}")
     print(f"Average F1 Score: {f1_total / count}")
     
 

@@ -20,7 +20,7 @@ from src.utilities import ESDConfig, PROJ_NAME
 ROOT = Path.cwd()
 
 
-def train(options: ESDConfig):
+def train(options: ESDConfig, accelerator: str):
     # initialize wandb
     # setup the wandb logger
     wandb_logger = WandbLogger(project="cs175-idk", config=options)
@@ -132,7 +132,7 @@ def train(options: ESDConfig):
     # initialize trainer, set accelerator, devices, number of nodes, logger
     # max epochs and callbacks
     trainer = pl.Trainer(
-        accelerator = "gpu",
+        accelerator = accelerator,
         devices = options.devices,
         num_nodes = 1,
         max_epochs= options.max_epochs,
@@ -217,8 +217,14 @@ if __name__ == "__main__":
         type=int,
         default=config.kernel_size,
     )
-
+    parser.add_argument(
+        "--device",
+        type=str,
+        help="Device to train on",
+        default=config.device,
+    )
     parse_args = parser.parse_args()
-
+    accelerator = "gpu" if "gpu" in parse_args.device else "cpu"
     config = ESDConfig(**parse_args.__dict__)
-    train(config)
+
+    train(config, accelerator)

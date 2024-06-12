@@ -13,7 +13,7 @@ from PIL import Image
 
 
 #turn jpg into 3 band rgb array (no ndvi, just turn into rgb)
-input_image_path = Path("data/sentinel/uci.jpg")
+input_image_path = Path("data/sentinel/sf.jpg")
 
 img = Image.open(input_image_path)
 img = img.resize((400, 400))
@@ -25,8 +25,9 @@ img = img.transpose(2, 0, 1)
 #predicts the image
 img = torch.tensor(img)
 img = img.unsqueeze(0)
-img = img.cuda()
-model = ESDSegmentation.load_from_checkpoint("models/DeepLab/last-v1.ckpt")
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+img = img.to(device)
+model = ESDSegmentation.load_from_checkpoint("models/DeepLab/last.ckpt")
 model.eval()
 output = model(img)
 output = output.squeeze().cpu().detach().numpy()
@@ -37,7 +38,7 @@ axs[0].imshow(img.squeeze().permute(1, 2, 0).cpu().numpy())
 axs[0].set_title("RGB Image")
 axs[1].imshow(output.astype(int), cmap="viridis")
 axs[1].set_title("Predicted NDVI")
-plt.savefig("uci_prediction.png")
+plt.savefig("sf_prediction.png")
 
 
 
