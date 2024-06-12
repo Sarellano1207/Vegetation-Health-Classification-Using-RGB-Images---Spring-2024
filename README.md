@@ -42,7 +42,7 @@ SegmentationCNN -  0.7060
 **Testing, Predictions, and Evaluation**\
 You can now either test the model against landsat data to see how it performs against true NDVI images or you can now make predicitions on custom RGB images.
 
-**Landsat Data Testing:**
+**Landsat Data Testing: (Route 1)**
 
 6. To evaluate and test on landsat data, download the cs175 electricity & settlement detection kaggle test dataset and place in the following file structure: **data/raw/Test/Tile***
 7. Test and evaluate the model using test_data.py
@@ -52,7 +52,7 @@ You can now either test the model against landsat data to see how it performs ag
     - Example: <code> python -m scripts.test_data --model_path models/DeepLab/last.ckpt --results_dir results</code>
 8. The results directory will now have the plotted RGB, NDVI, and predicted NDVI images in a png for each tile in the test dataset.
 
-**Custom RGB Image Predictions:**
+**Custom RGB Image Predictions: (Route 2)**
 
 6. Place custom RGB image anywhere in the directory
 7. Make a prediction using custom_input_prediction.py
