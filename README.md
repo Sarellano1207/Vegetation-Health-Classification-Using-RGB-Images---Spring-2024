@@ -18,11 +18,11 @@ This project focuses on vegetataion health classification using RGB images. Sate
 ![ML Pipeline](assets/MLpipeline.png "Example Image 1")
 
 
-### Models Tested:
-DeepLabv3\
-UNet\
-Resnet\
-Segmentation CNN
+### Models Tested & Accuracy (15 Epochs):
+DeepLabv3 - 0.7349652960526315\
+UNet - 0.7315738486842104\
+FCNResnet101 - 0.5767738486842104\
+SegmentationCNN -  0.7059647203947367
 
 ### Steps to run
 **Setup and Training**
