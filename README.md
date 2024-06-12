@@ -4,13 +4,14 @@ This project focuses on vegetataion health classification using RGB images. Sate
 
 ### Examples 
 <figure>
-  <img src="assets/Tile15_1_0_output.png" alt="Tile Prediction" title="Example Image 1" width="550"/>
-  <figcaption>Landsat Tile Prediction</figcaption>
-</figure>
+<figcaption>Landsat Tile Prediction:</figcaption>
+  <img src="assets/Tile15_1_0_output.png" alt="Tile Prediction" title="image1" width="550"/>
+</figure> 
 
 <figure>
-  <img src="assets/sf_prediction.png" alt="SF Prediction" title="Example Image 2" width="550"/>
-  <figcaption>SF Prediction (Google Maps Screenshot)</figcaption>
+<figcaption>SF Prediction (Google Maps Screenshot):</figcaption>
+  <img src="assets/sf_prediction.png" alt="SF Prediction" title="image2" width="550"/>
+  
 </figure>
 
 ### ML Pipeline
