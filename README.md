@@ -63,4 +63,9 @@ You can now either test the model against landsat data to see how it performs ag
 8. The root directory will now have the predicted NDVI image in a png format.
 
 
+**Current Best Model:**: https://drive.google.com/file/d/14R9OJwlghJTmUqbbsUOP4lBIuaa3Nkg4/view?usp=sharing
+
+###Citation
+
+
 
