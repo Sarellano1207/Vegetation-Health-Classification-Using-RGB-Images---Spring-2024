@@ -66,13 +66,13 @@ You can now either test the model against landsat data to see how it performs ag
 **Current Best Model:** https://drive.google.com/file/d/14R9OJwlghJTmUqbbsUOP4lBIuaa3Nkg4/view?usp=sharing
 
 ### Citing
-@misc{final-project-idk,
-  author = {Meghani, Krish and Thangellapally, Suraj and Kumar, Sree Santhosh and Arellano III, Samuel},
-  title = {RGB NDVI Prediction},
-  year = {2024},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {\url{[https://github.com/username/repository](https://github.com/cs175cv-s2024/final-project-idk)}},
+@misc{final-project-idk, \
+  author = {Meghani, Krish and Thangellapally, Suraj and Kumar, Sree Santhosh and Arellano III, Samuel}, \
+  title = {RGB NDVI Prediction}, \
+  year = {2024}, \
+  publisher = {GitHub}, \
+  journal = {GitHub repository}, \
+  howpublished = {\url{[https://github.com/username/repository](https://github.com/cs175cv-s2024/final-project-idk)}}, \
 }
 
 
