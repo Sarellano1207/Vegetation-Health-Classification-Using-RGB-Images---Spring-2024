@@ -1,4 +1,7 @@
-data/
+data/custom
+data/raw
+data/processed
+data/processed_test
 models/DeepLab
 models/FCNResnetTransfer
 models/SegmentationCNN
