@@ -65,9 +65,9 @@ You can now either test the model against landsat data to see how it performs ag
 
 ### Misc Links
 **Current Best Model:** https://drive.google.com/file/d/14R9OJwlghJTmUqbbsUOP4lBIuaa3Nkg4/view?usp=sharing \
-**Slides:** \
-**Poster:** \
-**Presentation:** \
+**Slides:** https://docs.google.com/presentation/d/1EjcCBLcoH6SfU5DMgBaSE7IU-kvOn_3ahglE-S1Dl-Y/edit?usp=drive_link \
+**Poster:** https://docs.google.com/presentation/d/1epWa1_5g9kKUYlkE6Ws1Gx9Ent8V2MwTp0Ex3F8DJoQ/edit?usp=drive_link \
+**Presentation:** https://drive.google.com/file/d/1kkaNfF--ip63HndEfeTeahQiOQedj18f/view?usp=drive_link \
 **Tech Memo: In Progress**
 ### Citing
 If you use this repository, this is the citation: \
