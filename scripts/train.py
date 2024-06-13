@@ -211,7 +211,7 @@ if __name__ == "__main__":
         "--device",
         type=str,
         help="Device to train on",
-        default=config.devices,
+        default="cpu",
     )
     parse_args = parser.parse_args()
     accelerator = "gpu" if "gpu" in parse_args.device else "cpu"
